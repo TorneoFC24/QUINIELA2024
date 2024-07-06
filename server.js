@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path'); // Módulo para trabajar con rutas de archivos y directorios
 const quinielaRoutes = require('./routes/quiniela');
 
 const app = express();
@@ -17,7 +18,10 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
+
+// Ruta para servir archivos estáticos desde la raíz del proyecto
+app.use(express.static(path.join(__dirname))); // Esto sirve los archivos estáticos desde la raíz del proyecto
+
 app.use('/api/quiniela', quinielaRoutes);
 
 app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
