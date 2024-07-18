@@ -12,6 +12,8 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+
 // Crear una nueva quiniela
 router.post('/', async (req, res) => {
     const { nombre, jornada, partidos } = req.body;
@@ -60,6 +62,15 @@ router.post('/calcular-puntos', async (req, res) => {
 
         puntuaciones.sort((a, b) => b.puntos - a.puntos);
         res.json(puntuaciones);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+router.delete('/usuario/:id', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        await Quiniela.deleteOne({ _id: userId });
+        res.status(200).json({ message: 'Usuario eliminado correctamente' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
